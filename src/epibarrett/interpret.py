@@ -60,3 +60,33 @@ def gbm_importance(fitted_pipeline, X, feature_names, max_display: int = 20):
         imp = r.importances_mean
     order = np.argsort(-imp)[:max_display]
     return [(str(names[i]), float(imp[i])) for i in order]
+
+
+def cv_selected_features(estimator, X, y, feature_names, cv) -> list[list[str]]:
+    """Return the list of selected feature names for each CV fold.
+
+    The estimator must expose a final classifier with `.coef_` and an optional
+    selector step with `.support_`. This is used to visualise feature-selection
+    stability across folds.
+    """
+    from sklearn.base import clone
+    from sklearn.model_selection import StratifiedKFold
+
+    if not hasattr(cv, "split"):
+        cv = StratifiedKFold(cv, shuffle=True, random_state=0)
+    folds = []
+    Xa = np.asarray(X)
+    ya = np.asarray(y)
+    names = np.array(feature_names)
+    for trn, _ in cv.split(Xa, ya):
+        est = clone(estimator).fit(Xa[trn], ya[trn])
+        select = est.named_steps.get("select")
+        clf = est.named_steps["clf"]
+        coef = clf.coef_.ravel()
+        if select is not None and hasattr(select, "support_"):
+            fold_names = names[select.support_]
+        else:
+            fold_names = names
+        selected = [str(n) for n, c in zip(fold_names, coef) if abs(c) > 1e-8]
+        folds.append(selected)
+    return folds

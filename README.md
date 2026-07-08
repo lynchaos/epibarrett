@@ -83,7 +83,8 @@ make real
 ```
 
 `make demo` writes `results/metrics.json`, `results/RESULTS.md`, and
-publication-style figures to `results/figures/`.
+publication-style figures to `results/figures/` (committed example figures are
+shown below from `docs/figures/`).
 
 ---
 
@@ -130,11 +131,28 @@ biology — **VIM, CCNA1, TFPI2, ZNF345, TAC1, NELL1** are selected with positiv
 
 ### Figures
 
-| | |
-|---|---|
-| ![ROC](results/figures/roc_within_cohort.png) | ![Within vs external](results/figures/roc_within_vs_external.png) |
-| ![Calibration](results/figures/calibration_lasso.png) | ![Decision curve](results/figures/decision_curve.png) |
-| ![Panel coefficients](results/figures/lasso_coefficients.png) | ![Progression](results/figures/marker_progression.png) |
+The pipeline now produces **17 publication-ready figures** covering performance,
+interpretability, calibration, and quality control:
+
+| Performance | Interpretability | QC & Calibration |
+|---|---|---|
+| ![ROC](docs/figures/roc_within_cohort.png) | ![Panel coefficients](docs/figures/lasso_coefficients.png) | ![Calibration](docs/figures/calibration_lasso.png) |
+| ![Within vs external](docs/figures/roc_within_vs_external.png) | ![Progression](docs/figures/marker_progression.png) | ![Calibration comparison](docs/figures/calibration_comparison.png) |
+| ![PR](docs/figures/pr_within_cohort.png) | ![SHAP summary](docs/figures/shap_summary_gbm.png) | ![Decision curve](docs/figures/decision_curve.png) |
+| ![Model radar](docs/figures/model_radar.png) | ![Feature stability](docs/figures/feature_stability.png) | ![Decision curve comparison](docs/figures/decision_curve_comparison.png) |
+| ![Confusion matrix](docs/figures/confusion_matrix_lasso.png) | ![Cohort embedding](docs/figures/cohort_embedding.png) | ![Missing data](docs/figures/missing_data_heatmap.png) |
+| ![Prediction distribution](docs/figures/prediction_distribution.png) | | |
+
+**New visualizations include:**
+- **Model radar** — side-by-side AUROC/AUPRC/sensitivity/specificity comparison.
+- **Confusion matrix** — at the screening operating point (default 90% specificity).
+- **Calibration comparison** — all models on one reliability diagram.
+- **Decision-curve comparison** — net benefit across models vs treat-all/none.
+- **SHAP summary** — beeswarm-style GBM feature attributions (requires `shap`).
+- **Feature-selection stability** — cross-validation consistency of the LASSO panel.
+- **Cohort embedding** — PCA projection coloured by cohort and true label.
+- **Prediction distribution** — violin plots of predicted probabilities by cohort and label.
+- **Missing-data heatmap** — sample/probe dropout pattern after QC.
 
 ---
 

@@ -27,7 +27,7 @@ from . import plots
 from .config import RunConfig
 from .data.preprocess import Preprocessor, sample_qc
 from .evaluate import bootstrap_auroc, compute_metrics, decision_curve
-from .interpret import gbm_importance, lasso_selected_features
+from .interpret import cv_selected_features, gbm_importance, lasso_selected_features
 from .panels import all_marker_probes, primary_panel_probes, probe_to_gene
 
 
@@ -140,6 +140,15 @@ def run(
     ]
 
     # ---- 7. figures ---------------------------------------------------------
+    # Normalise curve keys for the comparison plots.
+    scores_within = {
+        "LASSO": roc_within["lasso"],
+        "GBM": roc_within["gbm"],
+        "targeted (VIM+CCNA1)": roc_within.get("targeted (VIM+CCNA1)"),
+        "multimodal (methyl+clinical)": roc_within.get("multimodal (methyl+clinical)"),
+    }
+    scores_within = {k: v for k, v in scores_within.items() if v is not None}
+
     plots.plot_roc(roc_within, os.path.join(figdir, "roc_within_cohort.png"),
                    f"Within-cohort ROC ({discovery})")
     plots.plot_pr({k: v for k, v in roc_within.items() if "targeted" not in k},
@@ -148,9 +157,56 @@ def run(
     plots.plot_calibration(*roc_within["lasso"],
                            os.path.join(figdir, "calibration_lasso.png"),
                            "Calibration (LASSO panel)")
+    plots.plot_calibration_comparison(
+        scores_within,
+        os.path.join(figdir, "calibration_comparison.png"),
+        "Calibration comparison across models",
+    )
     dca = decision_curve(*roc_within["lasso"])
     plots.plot_decision_curve(dca, os.path.join(figdir, "decision_curve.png"),
                               "Decision-curve analysis (LASSO panel)")
+    dca_all = {k: decision_curve(*v) for k, v in scores_within.items()}
+    plots.plot_decision_curve_comparison(
+        dca_all,
+        os.path.join(figdir, "decision_curve_comparison.png"),
+        "Decision-curve comparison across models",
+    )
+    plots.plot_confusion_matrix(
+        *roc_within["lasso"],
+        os.path.join(figdir, "confusion_matrix_lasso.png"),
+        "Confusion matrix (LASSO panel)",
+        specificity=cfg.target_specificity,
+    )
+    plots.plot_model_radar(
+        results,
+        os.path.join(figdir, "model_radar.png"),
+        "Model performance comparison",
+    )
+    # prediction distribution: discovery always, external if available
+    y_dist = roc_within["lasso"][0]
+    s_dist = roc_within["lasso"][1]
+    g_dist = np.full(len(y_dist), discovery)
+    if "lasso" in roc_external:
+        ye_ext, se_ext = roc_external["lasso"]
+        y_dist = np.concatenate([y_dist, ye_ext])
+        s_dist = np.concatenate([s_dist, se_ext])
+        g_dist = np.concatenate([g_dist, np.full(len(ye_ext), external)])
+    plots.plot_prediction_distribution(
+        y_dist, s_dist, g_dist,
+        os.path.join(figdir, "prediction_distribution.png"),
+        "Predicted probability distribution (LASSO panel)",
+    )
+    plots.plot_cohort_embedding(
+        Md, meta.loc[disc],
+        os.path.join(figdir, "cohort_embedding.png"),
+        f"Sample embedding ({discovery})",
+        method="pca",
+    )
+    plots.plot_missing_data(
+        Xd_beta,
+        os.path.join(figdir, "missing_data_heatmap.png"),
+        "Missing-data pattern after QC",
+    )
     genes = [f"{p2g.get(p, 'bg')}:{p}" for p, _ in selected[:20]]
     coefs = [c for _, c in selected[:20]]
     if genes:
@@ -165,6 +221,22 @@ def run(
         overlay.update({f"external {k}": v for k, v in roc_external.items()})
         plots.plot_roc(overlay, os.path.join(figdir, "roc_within_vs_external.png"),
                        "Within- vs external-cohort ROC (generalisation)")
+
+    # feature-selection stability across CV folds (LASSO panel)
+    # Use the uncalibrated base pipeline: calibration does not change selection.
+    fold_features = cv_selected_features(lasso, Md.to_numpy(), yd, probe_names, cv)
+    plots.plot_feature_stability(
+        fold_features,
+        os.path.join(figdir, "feature_stability.png"),
+        "LASSO feature-selection stability across CV folds",
+    )
+
+    # SHAP summary for the final GBM (optional: requires shap package)
+    plots.plot_shap_summary(
+        gbm_final, Md, probe_names,
+        os.path.join(figdir, "shap_summary_gbm.png"),
+        "GBM SHAP summary (top probes)",
+    )
 
     # ---- 8. persist metrics + human-readable table --------------------------
     meta_summary = {
