@@ -1,0 +1,328 @@
+{
+  "within.lasso": {
+    "auroc": 0.9503968253968255,
+    "auprc": 0.9537083978980874,
+    "brier": 0.09780938831091726,
+    "sensitivity_at_spec90": 0.873015873015873,
+    "specificity_at_sens90": 0.8548387096774194,
+    "n": 250,
+    "prevalence": 0.504,
+    "auroc_ci95": [
+      0.9246015745007681,
+      0.9740303379416283
+    ]
+  },
+  "within.gbm": {
+    "auroc": 0.8972094214029698,
+    "auprc": 0.9088239565472542,
+    "brier": 0.14035917875148912,
+    "sensitivity_at_spec90": 0.7142857142857143,
+    "specificity_at_sens90": 0.6290322580645161,
+    "n": 250,
+    "prevalence": 0.504,
+    "auroc_ci95": [
+      0.8586741551459294,
+      0.9322244623655914
+    ]
+  },
+  "within.targeted": {
+    "auroc": 0.9139784946236559,
+    "auprc": 0.9239706329613951,
+    "brier": 0.12130136959989281,
+    "sensitivity_at_spec90": 0.753968253968254,
+    "specificity_at_sens90": 0.6854838709677419,
+    "n": 250,
+    "prevalence": 0.504,
+    "auroc_ci95": [
+      0.8787090373783922,
+      0.9436795954941117
+    ]
+  },
+  "within.multimodal": {
+    "auroc": 0.9567332309267793,
+    "auprc": 0.9589696832413457,
+    "brier": 0.09072201619977514,
+    "sensitivity_at_spec90": 0.8888888888888888,
+    "specificity_at_sens90": 0.8870967741935484,
+    "n": 250,
+    "prevalence": 0.504,
+    "auroc_ci95": [
+      0.933173323092678,
+      0.9761952764976959
+    ]
+  },
+  "within.clinical_only": {
+    "auroc": 0.6690988223246288,
+    "auprc": 0.6859693850230023,
+    "brier": 0.22678546064067975,
+    "sensitivity_at_spec90": 0.2698412698412698,
+    "specificity_at_sens90": 0.18548387096774194,
+    "n": 250,
+    "prevalence": 0.504
+  },
+  "external.lasso": {
+    "auroc": 0.9423728813559322,
+    "auprc": 0.738482943780696,
+    "brier": 0.4649400820862006,
+    "sensitivity_at_spec90": 0.8,
+    "specificity_at_sens90": 0.864406779661017,
+    "n": 192,
+    "prevalence": 0.078125,
+    "auroc_ci95": [
+      0.8805743879472693,
+      0.9864406779661017
+    ]
+  },
+  "external.gbm": {
+    "auroc": 0.9212806026365348,
+    "auprc": 0.5820216624108571,
+    "brier": 0.28547947784607763,
+    "sensitivity_at_spec90": 0.8666666666666667,
+    "specificity_at_sens90": 0.6666666666666666,
+    "n": 192,
+    "prevalence": 0.078125,
+    "auroc_ci95": [
+      0.8418079096045198,
+      0.9834274952919021
+    ]
+  },
+  "selected_panel": [
+    {
+      "probe": "cg_ZNF345_2",
+      "gene": "ZNF345",
+      "coef": 0.7035181247656423
+    },
+    {
+      "probe": "cg_TFPI2_1",
+      "gene": "TFPI2",
+      "coef": 0.5380634042743031
+    },
+    {
+      "probe": "cg_VIM_1",
+      "gene": "VIM",
+      "coef": 0.478083363737724
+    },
+    {
+      "probe": "cg_CCNA1_3",
+      "gene": "CCNA1",
+      "coef": 0.4403272227367819
+    },
+    {
+      "probe": "cg_TAC1_1",
+      "gene": "TAC1",
+      "coef": 0.4207556722110058
+    },
+    {
+      "probe": "cg_VIM_2",
+      "gene": "VIM",
+      "coef": 0.3264920743253056
+    },
+    {
+      "probe": "cg_TFPI2_2",
+      "gene": "TFPI2",
+      "coef": 0.3120380728741678
+    },
+    {
+      "probe": "cg_NELL1_1",
+      "gene": "NELL1",
+      "coef": 0.3008969535191267
+    },
+    {
+      "probe": "cg_VIM_3",
+      "gene": "VIM",
+      "coef": 0.27840107854419205
+    },
+    {
+      "probe": "cg_CCNA1_2",
+      "gene": "CCNA1",
+      "coef": 0.18589863770343062
+    },
+    {
+      "probe": "bg_01511",
+      "gene": "background",
+      "coef": -0.15830800052901345
+    },
+    {
+      "probe": "cg_ZNF345_1",
+      "gene": "ZNF345",
+      "coef": 0.14178484941506977
+    },
+    {
+      "probe": "bg_01691",
+      "gene": "background",
+      "coef": 0.13350253242783736
+    },
+    {
+      "probe": "bg_01367",
+      "gene": "background",
+      "coef": 0.12902553267595554
+    },
+    {
+      "probe": "bg_01532",
+      "gene": "background",
+      "coef": -0.12201077014600044
+    },
+    {
+      "probe": "bg_00290",
+      "gene": "background",
+      "coef": -0.1101334005361793
+    },
+    {
+      "probe": "bg_00733",
+      "gene": "background",
+      "coef": 0.10831257522986705
+    },
+    {
+      "probe": "bg_00105",
+      "gene": "background",
+      "coef": -0.10737308224671371
+    },
+    {
+      "probe": "bg_00509",
+      "gene": "background",
+      "coef": 0.10623849312332573
+    },
+    {
+      "probe": "bg_00686",
+      "gene": "background",
+      "coef": -0.09256552909242247
+    },
+    {
+      "probe": "bg_00994",
+      "gene": "background",
+      "coef": 0.08975507656339371
+    },
+    {
+      "probe": "bg_01544",
+      "gene": "background",
+      "coef": -0.0880138674460795
+    },
+    {
+      "probe": "bg_00140",
+      "gene": "background",
+      "coef": 0.08341806735469658
+    },
+    {
+      "probe": "bg_00641",
+      "gene": "background",
+      "coef": -0.08049141437016215
+    },
+    {
+      "probe": "bg_00080",
+      "gene": "background",
+      "coef": -0.07966493645195764
+    }
+  ],
+  "gbm_top_features": [
+    {
+      "probe": "cg_ZNF345_2",
+      "gene": "ZNF345",
+      "importance": 0.44761625569077046
+    },
+    {
+      "probe": "cg_CCNA1_3",
+      "gene": "CCNA1",
+      "importance": 0.3919606170447708
+    },
+    {
+      "probe": "cg_TFPI2_1",
+      "gene": "TFPI2",
+      "importance": 0.33921190341330115
+    },
+    {
+      "probe": "cg_VIM_1",
+      "gene": "VIM",
+      "importance": 0.2951477251550466
+    },
+    {
+      "probe": "cg_TAC1_1",
+      "gene": "TAC1",
+      "importance": 0.2890054574210354
+    },
+    {
+      "probe": "cg_TFPI2_2",
+      "gene": "TFPI2",
+      "importance": 0.25664946466597705
+    },
+    {
+      "probe": "cg_VIM_3",
+      "gene": "VIM",
+      "importance": 0.1199790025149959
+    },
+    {
+      "probe": "cg_NELL1_1",
+      "gene": "NELL1",
+      "importance": 0.11122904068379584
+    },
+    {
+      "probe": "cg_CCNA1_2",
+      "gene": "CCNA1",
+      "importance": 0.11077148485183563
+    },
+    {
+      "probe": "cg_CCNA1_1",
+      "gene": "CCNA1",
+      "importance": 0.10342810589743917
+    },
+    {
+      "probe": "cg_SST_1",
+      "gene": "SST",
+      "importance": 0.09712306979141481
+    },
+    {
+      "probe": "bg_00924",
+      "gene": "background",
+      "importance": 0.09479481971948106
+    },
+    {
+      "probe": "cg_VIM_2",
+      "gene": "VIM",
+      "importance": 0.09407314074850304
+    },
+    {
+      "probe": "bg_00771",
+      "gene": "background",
+      "importance": 0.08693690495060578
+    },
+    {
+      "probe": "cg_ZNF345_1",
+      "gene": "ZNF345",
+      "importance": 0.08437516401768441
+    },
+    {
+      "probe": "bg_01581",
+      "gene": "background",
+      "importance": 0.07109450882190814
+    },
+    {
+      "probe": "bg_00944",
+      "gene": "background",
+      "importance": 0.039676060837992425
+    },
+    {
+      "probe": "bg_00757",
+      "gene": "background",
+      "importance": 0.03689797391343528
+    },
+    {
+      "probe": "bg_01281",
+      "gene": "background",
+      "importance": 0.034912264438296474
+    },
+    {
+      "probe": "bg_00720",
+      "gene": "background",
+      "importance": 0.0338130151909994
+    }
+  ],
+  "_summary": {
+    "discovery_cohort": "GSE81334_like",
+    "external_cohort": "GSE104707_like",
+    "n_discovery": 250,
+    "n_external": 192,
+    "n_probes_after_qc": 2074,
+    "n_samples_dropped_qc": 18,
+    "discovery_prevalence": 0.504,
+    "external_prevalence": 0.078125
+  }
+}
