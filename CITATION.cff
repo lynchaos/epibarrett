@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+title: "epibarrett: epigenetic early detection of Barrett's esophagus"
+message: "If you use this software, please cite it."
+type: software
+authors:
+  - given-names: Kemal
+    family-names: Yaylali
+version: 0.1.0
+date-released: 2026-07-08
+url: "https://github.com/lynchaos/epibarrett"

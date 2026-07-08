@@ -1,0 +1,9 @@
+# Default run configuration (mirrors epibarrett.config.RunConfig).
+seed: 7
+cv_folds: 5
+lasso_k: 200          # candidate probes entering L1 selection
+lasso_C: 0.15         # inverse L1 strength (smaller => sparser panel)
+gbm_k: 500
+target_specificity: 0.90   # screening operating point
+n_bootstrap: 1000
+clinical_features: [age, sex_male, bmi, smoker, gerd]

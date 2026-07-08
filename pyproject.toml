@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "epibarrett"
+version = "0.1.0"
+description = "Epigenetic early detection of Barrett's esophagus / esophageal adenocarcinoma from DNA methylation."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Kemal Yaylali" }]
+keywords = [
+    "DNA methylation", "Barrett's esophagus", "esophageal adenocarcinoma",
+    "cancer early detection", "machine learning", "computational biology",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scikit-learn>=1.3,<1.7",
+    "scipy>=1.10",
+    "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+# Real-data path: pulls HM450 cohorts from GEO. Requires network access.
+real = ["GEOparse>=2.0"]
+# Interpretability for the gradient-boosted comparator.
+interpret = ["shap>=0.44"]
+dev = ["pytest>=7.4", "ruff>=0.4"]
+
+[project.scripts]
+epibarrett-demo = "epibarrett.pipeline:run_offline_demo"
+
+[project.urls]
+Homepage = "https://github.com/lynchaos/epibarrett"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/epibarrett"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 90
+target-version = "py310"
+
+[tool.ruff.lint.per-file-ignores]
+# plots.py sets the matplotlib backend before importing pyplot (E402) and uses
+# compact `a; b` layout in small plotting helpers (E702) -- both intentional.
+"src/epibarrett/plots.py" = ["E402", "E702"]
+# tests and entry-point scripts filter warnings before importing sklearn-backed
+# modules, so their imports are deliberately not at the very top (E402).
+"tests/*.py" = ["E402"]
+"scripts/*.py" = ["E402"]
