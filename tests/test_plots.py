@@ -80,9 +80,18 @@ def test_plot_cohort_embedding():
 def test_plot_prediction_distribution():
     y = np.array([0] * 30 + [1] * 30)
     s = np.array([0.2] * 30 + [0.8] * 30)
-    groups = np.array(["A"] * 20 + ["B"] * 40)
+    groups = np.array(["A"] * 15 + ["B"] * 15 + ["A"] * 15 + ["B"] * 15)
     path = _tmp_png()
     plots.plot_prediction_distribution(y, s, groups, path, "Test dist")
+    assert os.path.getsize(path) > 0
+
+
+def test_plot_prediction_distribution_empty_group():
+    y = np.array([0] * 30 + [1] * 30)
+    s = np.array([0.2] * 30 + [0.8] * 30)
+    groups = np.array(["A"] * 20 + ["B"] * 40)  # cohort A has only controls
+    path = _tmp_png()
+    plots.plot_prediction_distribution(y, s, groups, path, "Test dist empty")
     assert os.path.getsize(path) > 0
 
 

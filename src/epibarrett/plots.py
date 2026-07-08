@@ -337,14 +337,25 @@ def plot_prediction_distribution(
         axes = [axes]
     for ax, cohort in zip(axes, cohorts):
         sub = df[df["cohort"] == cohort]
+        datasets = []
+        labels = []
+        for lab, name in (("control", "control"), ("case", "case")):
+            vals = sub.loc[sub["label"] == lab, "score"].values
+            if len(vals) > 0:
+                datasets.append(vals)
+                labels.append(name)
+        if not datasets:
+            ax.set_title(cohort)
+            continue
         parts = ax.violinplot(
-            [sub.loc[sub["label"] == "control", "score"].values,
-             sub.loc[sub["label"] == "case", "score"].values],
-            positions=[1, 2], showmeans=True, showmedians=False,
+            datasets, positions=range(1, len(datasets) + 1),
+            showmeans=True, showmedians=False,
         )
-        for pc, color in zip(parts["bodies"], [_LABEL_CTRL, _LABEL_CASE]):
+        colors = [_LABEL_CTRL, _LABEL_CASE][:len(datasets)]
+        for pc, color in zip(parts["bodies"], colors):
             pc.set_facecolor(color); pc.set_alpha(0.5)
-        ax.set_xticks([1, 2]); ax.set_xticklabels(["control", "case"])
+        ax.set_xticks(range(1, len(datasets) + 1))
+        ax.set_xticklabels(labels)
         ax.set_ylim(-0.05, 1.05)
         ax.set_ylabel("predicted probability")
         ax.set_title(cohort)
